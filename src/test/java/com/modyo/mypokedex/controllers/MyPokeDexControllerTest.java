@@ -63,7 +63,7 @@ public class MyPokeDexControllerTest {
 
         when(pokemonService.findDescription(id)).thenReturn(objCharacteristic);
 
-        ResponseEntity<Object> responseCharacteristic = myPokeDexController.findDescription(id);
+        ResponseEntity<?> responseCharacteristic = myPokeDexController.findDescription(id);
      
         Assertions.assertThat(responseCharacteristic.getStatusCode().value()).isEqualTo(200);
         assertNotNull(responseCharacteristic);   
@@ -77,7 +77,7 @@ public class MyPokeDexControllerTest {
 
         when(pokemonService.findEvolution(id)).thenReturn(objEvolution);
 
-        ResponseEntity<Object> responseEvolution = myPokeDexController.findEvolution(id);
+        ResponseEntity<?> responseEvolution = myPokeDexController.findEvolution(id);
      
         Assertions.assertThat(responseEvolution.getStatusCode().value()).isEqualTo(200);
         assertNotNull(responseEvolution); 

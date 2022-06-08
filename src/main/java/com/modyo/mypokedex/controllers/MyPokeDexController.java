@@ -38,14 +38,14 @@ public class MyPokeDexController {
        }
 
     @GetMapping("/evolution/{id}")
-	public ResponseEntity<Object> findEvolution(@PathVariable("id") Integer id){
+	public ResponseEntity<?> findEvolution(@PathVariable("id") Integer id){
         LOGGER.info("Ini -> MyPokeDexController.findEvolution");
         Evolution objEvolution = pokemonService.findEvolution(id);  
         return ResponseEntity.status(HttpStatus.OK).body(objEvolution);
     }
 
     @GetMapping("/description/{id}")
-	public  ResponseEntity<Object> findDescription(@PathVariable("id") Integer id) {
+	public  ResponseEntity<?> findDescription(@PathVariable("id") Integer id) {
         LOGGER.info("Ini -> MyPokeDexController.findDescription");
         Characteristic objCharacteristic = pokemonService.findDescription(id);
         return ResponseEntity.status(HttpStatus.OK).body(objCharacteristic);

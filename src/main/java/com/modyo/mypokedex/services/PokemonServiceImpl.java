@@ -15,7 +15,6 @@ import org.json.JSONObject;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestClientResponseException;
 import org.springframework.web.client.RestTemplate;
 
 @Service
@@ -27,7 +26,7 @@ public class PokemonServiceImpl implements IPokemonService {
 	private final String POKEMON_ENDPOINT = "https://pokeapi.co/api/v2/pokemon/";
 	private final String POKEMON_EVOLUTION_ENDPOINT = "https://pokeapi.co/api/v2/evolution-chain/";
 	private final String POKEMON_CHARACTERISTIC_ENDPOINT = "https://pokeapi.co/api/v2/characteristic/";
-	private final String LANGUAGE = "es";
+	private final String LANGUAGE = "en";
 
 	public PokemonServiceImpl(RestTemplate restTemplate) {
     	this.restTemplate = restTemplate;
@@ -100,18 +99,18 @@ public class PokemonServiceImpl implements IPokemonService {
 
 
 	@Override
-	@Cacheable(cacheNames = "cachePokemons", condition="#id > 0")
+	@Cacheable(cacheNames = "cacheEvolution", condition="#id > 0")
 	public Evolution findEvolution(Integer id) {
 		LOGGER.info("Ini -> PokemonServiceImpl.findEvolution");
 		Evolution evolution = new Evolution(id);
 		String url = this.POKEMON_EVOLUTION_ENDPOINT + id.toString() + "/";
 
 		try{
-			JSONObject result =  new JSONObject(restTemplate.getForObject(url, String.class));
-			JSONObject chain = result.getJSONObject("chain");
+			JSONObject resultEvolution =  new JSONObject(restTemplate.getForObject(url, String.class));
+			JSONObject chain = resultEvolution.getJSONObject("chain");
 			JSONArray evolves_to = chain.getJSONArray("evolves_to");
-			String name = evolves_to.getJSONObject(0).getJSONObject("species").getString("name");
-			evolution.setEvolution(name);
+			String nameEvolution = evolves_to.getJSONObject(0).getJSONObject("species").getString("name");
+			evolution.setEvolution(nameEvolution);
 			if(evolution.getEvolution().isEmpty()){
 				throw new MyPokedexNotFoundException(id);
 			}
@@ -123,7 +122,7 @@ public class PokemonServiceImpl implements IPokemonService {
 
 
 	@Override
-	@Cacheable(cacheNames = "cachePokemons", condition="#id > 0")
+	@Cacheable(cacheNames = "cacheDescription", condition="#id > 0")
 	public Characteristic findDescription(Integer id){
 		LOGGER.info("Ini -> PokemonServiceImpl.findDescription");
 		Characteristic characteristic = new Characteristic(id);
