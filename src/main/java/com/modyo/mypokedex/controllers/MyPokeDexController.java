@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-@CrossOrigin(origins = "http://localhost:4200")
+@CrossOrigin(origins = "http://mypokedex-fe.s3-website-us-east-1.amazonaws.com")
 @RestController
 @RequestMapping("/mypokedex")
 public class MyPokeDexController {
